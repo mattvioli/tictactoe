@@ -16,6 +16,7 @@ function createGameBoard() {
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
         let element = document.createElement('div')
         element.className = 'game-div'
+        element.id = `${i}${j}`
         gameBoardDisplay.appendChild(element)
         }
     }
