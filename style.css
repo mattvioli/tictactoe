@@ -17,6 +17,10 @@ body {
     width: auto;
     height: auto;
     border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
 }
 
 .playerturn {
