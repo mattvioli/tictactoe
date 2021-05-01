@@ -13,3 +13,8 @@ function clickHandler(event) {
     gameObject.nextPlayer = event.target.textContent
     playerMarkerDisplay.textContent = gameObject.playerMarker
 }
+
+function gameBoard() {
+    playerMarkerDisplay.textContent = gameObject.playerMarker
+}
+gameBoard()
