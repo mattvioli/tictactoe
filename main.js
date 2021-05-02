@@ -40,34 +40,52 @@ function clickHandler(event) {
 }
 
 function checkWinner() {
+    //this works, but I need to loop through this.
+    // gameObject.gameBoard[i][i] in a loop should work.
+        //diagonal
+        let win = false
+        if(gameObject.gameBoard[0][0] === gameObject.nextPlayer
+            && gameObject.gameBoard[1][1] === gameObject.nextPlayer
+            && gameObject.gameBoard[2][2] === gameObject.nextPlayer){
+            win = true
+        }
+        //other diagonal
+        if(gameObject.gameBoard[0][2] === gameObject.nextPlayer
+            && gameObject.gameBoard[1][1] === gameObject.nextPlayer
+            && gameObject.gameBoard[2][0] === gameObject.nextPlayer){
+            win = true
+        }
+        if(win){
+            alert(`${gameObject.nextPlayer} wins!`)
+        }
+
     //rows
     for(let i = 0; i < gameObject.gameBoard.length; i++){
-        let winArray = true
+        let win = true
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
-            if(gameObject.gameBoard[i][j] !== gameObject.nextPlayer)    {
-                winArray = false
+            if(gameObject.gameBoard[i][j] !== gameObject.nextPlayer){
+                win = false
                 break;
             }
         }
-        if(winArray)
-        {
+        if(win){
             alert(`${gameObject.nextPlayer} wins!`)
         }
     }
     //columns
     for(let i = 0; i < gameObject.gameBoard.length; i++){
-        let winArray = true
+        let win = true
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
-            if(gameObject.gameBoard[j][i] !== gameObject.nextPlayer)    {
-                winArray = false
+            if(gameObject.gameBoard[j][i] !== gameObject.nextPlayer){
+                win = false
                 break;
             }
         }
-        if(winArray)
-        {
+        if(win){
             alert(`${gameObject.nextPlayer} wins!`)
         }
     }
+
 }
 
 //okay what do I need to do.
