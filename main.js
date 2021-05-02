@@ -40,18 +40,11 @@ function clickHandler(event) {
 }
 
 function checkWinner() {
+    //rows
     for(let i = 0; i < gameObject.gameBoard.length; i++){
         let winArray = true
-        //rows
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
             if(gameObject.gameBoard[i][j] !== gameObject.nextPlayer)    {
-                winArray = false
-                break;
-            }
-        }
-        //columns
-        for(let j = 0; j < gameObject.gameBoard[i].length; j++){
-            if(gameObject.gameBoard[i][i] !== gameObject.nextPlayer)    {
                 winArray = false
                 break;
             }
@@ -61,7 +54,20 @@ function checkWinner() {
             alert(`${gameObject.nextPlayer} wins!`)
         }
     }
-
+    //columns
+    for(let i = 0; i < gameObject.gameBoard.length; i++){
+        let winArray = true
+        for(let j = 0; j < gameObject.gameBoard[i].length; j++){
+            if(gameObject.gameBoard[j][i] !== gameObject.nextPlayer)    {
+                winArray = false
+                break;
+            }
+        }
+        if(winArray)
+        {
+            alert(`${gameObject.nextPlayer} wins!`)
+        }
+    }
 }
 
 //okay what do I need to do.
