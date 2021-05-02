@@ -43,21 +43,37 @@ function checkWinner() {
     //this works, but I need to loop through this.
     // gameObject.gameBoard[i][i] in a loop should work.
         //diagonal
-        let win = false
-        if(gameObject.gameBoard[0][0] === gameObject.nextPlayer
-            && gameObject.gameBoard[1][1] === gameObject.nextPlayer
-            && gameObject.gameBoard[2][2] === gameObject.nextPlayer){
-            win = true
+        for(let i = 0; i < gameObject.gameBoard.length; i++) {
+        let win = true
+        for(let j = 0; j < gameObject.gameBoard[i].length; j++){
+            if(gameObject.gameBoard[j][j] !== gameObject.nextPlayer){
+                win = false
+                break;
+            }
+        }
+            if(win){
+                alert(`${gameObject.nextPlayer} wins!`)
+            }
+            break
+            //break needed otherwise it alerts three times
         }
         //other diagonal
-        if(gameObject.gameBoard[0][2] === gameObject.nextPlayer
-            && gameObject.gameBoard[1][1] === gameObject.nextPlayer
-            && gameObject.gameBoard[2][0] === gameObject.nextPlayer){
-            win = true
-        }
-        if(win){
-            alert(`${gameObject.nextPlayer} wins!`)
-        }
+         //diagonal
+         for(let i = 0; i < gameObject.gameBoard.length; i++) {
+            let win = true
+            for(let j = 0; j < gameObject.gameBoard[i].length; j++){
+                const diagColumn = gameObject.gameBoard[i].length - 1
+                if(gameObject.gameBoard[diagColumn - j][j] !== gameObject.nextPlayer){
+                    win = false
+                    console.log(gameObject.gameBoard[-j][j])
+                    break;
+                }
+            }
+                if(win){
+                    alert(`${gameObject.nextPlayer} wins!`)
+                }
+                break
+            }
 
     //rows
     for(let i = 0; i < gameObject.gameBoard.length; i++){
