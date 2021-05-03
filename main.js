@@ -161,6 +161,6 @@ resetButton.addEventListener('click', function () {
     location.reload()
 } )
 
-//this is probably not the best way to reset the game, however as it'
+//this is probably not the best way to reset the game, however as it is one page I am okay with this.
 const continueButton = document.querySelector('.win-announcement button')
 continueButton.addEventListener('click', () => location.reload())
