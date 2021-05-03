@@ -2,28 +2,72 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgb(230, 230, 240);
+    color: black
 }
 
 .game-board {
     display: grid;
+    gap: 1px;
     width: 50vw;
     height: 50vh;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
-    border: 1px solid black;
+    border-radius: 15px;
+    background-color: black;
 }
 
 .game-div {
     width: auto;
     height: auto;
-    border: 1px solid black;
+    padding:  1px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 50px;
+    border-radius: 15px;
+    background-color: rgb(22, 58, 123);
 }
 
 .playerturn {
     margin: 10px;
     font-size: 24px;
+}
+
+.player-display {
+    width: 60vw;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 
+        'turn turn turn'
+        'playerone button playertwo'
+    ;
+}
+
+.playerturn {
+    grid-area: turn;
+    text-align: center;
+}
+
+#player-one {
+    grid-area: playerone;
+}
+
+#player-two {
+    grid-area: playertwo;
+}
+
+.player-panel {
+    margin: 0 10px;
+    justify-self: center;
+}
+
+#reset {
+    grid-area: button;
+    border: none;
+    border-radius: 10px;
+    height: 50px;
+    background-color: rgb(212, 48, 119);
+    align-self: end;
 }
