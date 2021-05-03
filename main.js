@@ -132,15 +132,16 @@ function winCounter() {
 
 function winAnouncer(win, player) {
     if(win){
-       const winAccouncement = document.querySelector('.win-announcement div')
+        const winAccouncement = document.querySelector('.win-announcement')
+        const winAccouncementSpan = document.querySelector('.win-announcement span')
         if(player === gameObject.firstPlayer.marker){
             gameObject.firstPlayer.counter++
-            winAccouncement.textContent = `${gameObject.firstPlayer.marker} is the winnner!!`
+            winAccouncementSpan.textContent = `${gameObject.firstPlayer.marker}`
             const firstMark = document.querySelector('#first-player-counter')
             firstMark.textContent = `${gameObject.firstPlayer.marker} has won ${gameObject.firstPlayer.counter} times`
         } else {
             gameObject.secondPlayer.counter++
-            winAccouncement.textContent = `${gameObject.secondPlayer.marker} is the winnner!!`
+            winAccouncementSpan.textContent = `${gameObject.secondPlayer.marker}`
             const secondMark = document.querySelector('#second-player-counter')
             secondMark.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`
         }
@@ -160,4 +161,6 @@ resetButton.addEventListener('click', function () {
     location.reload()
 } )
 
-//need to write JS to populate the player's name and using their input to set the name
+//this is probably not the best way to reset the game, however as it'
+const continueButton = document.querySelector('.win-announcement button')
+continueButton.addEventListener('click', () => location.reload())

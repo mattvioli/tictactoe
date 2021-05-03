@@ -78,11 +78,10 @@ body {
     width: 20vw;
     border-radius: 15px;
     background-color: rgb(212, 48, 119);
-    top: 20%;
+    top: -20%;
     left: 40%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
     align-items: center;
     font-size: 24px;
     transition: all 2s ease;
@@ -100,6 +99,7 @@ body {
     width: 18vw;
     text-align: center;
 }
+
 #yes-win {
     position: absolute;
     top: 20%;
