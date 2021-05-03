@@ -1,22 +1,25 @@
 let gameObject = {}
-if(localStorage.getItem('gameObject') === null) {
-    gameObject = {
-    firstPlayer: {
-            marker: 'O',
+function createGameObject() {
+    if(localStorage.getItem('gameObject') === null) {
+        gameObject = {
+        firstPlayer: {
+                marker: 'O',
+                counter: 0
+        },
+        secondPlayer: {  
+            marker: 'X',
             counter: 0
-    },
-    secondPlayer: {  
-        marker: 'X',
-        counter: 0
-    },
-    gameBoard:  [
-        ['','',''],
-        ['','',''],
-        ['','','']
-    ]
-}} else { 
-    gameObject = JSON.parse(localStorage.getItem('gameObject'))
+        },
+        gameBoard:  [
+            ['','',''],
+            ['','',''],
+            ['','','']
+        ]
+    }} else { 
+        gameObject = JSON.parse(localStorage.getItem('gameObject'))
+    }
 }
+createGameObject()
 let playerTracker = {currentPlayer: gameObject.firstPlayer.marker,
     nextPlayer: gameObject.secondPlayer.marker}
 
@@ -148,3 +151,9 @@ function winAnouncer(win, player) {
         localStorage.setItem('gameObject', JSON.stringify(gameObject))
    }
 }
+
+const resetButton = document.querySelector('#reset')
+resetButton.addEventListener('click', function () { 
+    localStorage.clear()
+    location.reload()
+} )
