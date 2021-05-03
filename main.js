@@ -78,9 +78,8 @@ function checkWinner() {
             let win = true
             for(let j = 0; j < gameObject.gameBoard[i].length; j++){
                 const diagColumn = (gameObject.gameBoard[i].length - 1)
-                if(gameObject.gameBoard[gameObject.gameBoard[i].length - j][j] !== playerTracker.nextPlayer){
+                if(gameObject.gameBoard[diagColumn - j][j] !== playerTracker.nextPlayer){
                     win = false
-                    console.log(gameObject.gameBoard[-j][j])
                     break;
                 }
             }
