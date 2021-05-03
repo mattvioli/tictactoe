@@ -1,5 +1,4 @@
 let gameObject = {}
-function createGameObject() {
     if(localStorage.getItem('gameObject') === null) {
         gameObject = {
         firstPlayer: {
@@ -18,8 +17,7 @@ function createGameObject() {
     }} else { 
         gameObject = JSON.parse(localStorage.getItem('gameObject'))
     }
-}
-createGameObject()
+
 let playerTracker = {currentPlayer: gameObject.firstPlayer.marker,
     nextPlayer: gameObject.secondPlayer.marker}
 
