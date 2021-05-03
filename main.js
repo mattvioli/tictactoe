@@ -1,4 +1,6 @@
-let gameObject = {
+let gameObject = {}
+if(localStorage.getItem('gameObject') === null) {
+    gameObject = {
     firstPlayer: {
             marker: 'O',
             counter: 0
@@ -11,7 +13,9 @@ let gameObject = {
         ['','',''],
         ['','',''],
         ['','','']
-    ],
+    ]
+}} else { 
+    gameObject = JSON.parse(localStorage.getItem('gameObject'))
 }
 let playerTracker = {currentPlayer: gameObject.firstPlayer.marker,
     nextPlayer: gameObject.secondPlayer.marker}
@@ -125,7 +129,6 @@ function winCounter() {
 }
 
 function winAnouncer(win, player) {
-
     if(win){
         alert(`${player} wins!`)
         if(player === gameObject.firstPlayer.marker){
@@ -137,7 +140,11 @@ function winAnouncer(win, player) {
             const secondMark = document.querySelector('#second-player-counter')
             secondMark.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`
         }
-
+        gameObject.gameBoard = [
+            ['','',''],
+            ['','',''],
+            ['','','']
+        ]
+        localStorage.setItem('gameObject', JSON.stringify(gameObject))
    }
-
 }
