@@ -56,8 +56,6 @@ function clickHandler(event) {
 }
 
 function checkWinner() {
-    //this works, but I need to loop through this.
-    // gameObject.gameBoard[i][i] in a loop should work.
         //diagonal
         for(let i = 0; i < gameObject.gameBoard.length; i++) {
         let win = true
@@ -67,9 +65,7 @@ function checkWinner() {
                 break;
             }
         }
-            if(win){
-                alert(`${playerTracker.nextPlayer} wins!`)
-            }
+            winAnouncer(win, playerTracker.nextPlayer)
             break
             //break needed otherwise it alerts three times
         }
@@ -83,10 +79,8 @@ function checkWinner() {
                     break;
                 }
             }
-                if(win){
-                    alert(`${playerTracker.nextPlayer} wins!`)
-                }
-                break
+            winAnouncer(win, playerTracker.nextPlayer)
+            break
             }
 
     //rows
@@ -98,9 +92,7 @@ function checkWinner() {
                 break;
             }
         }
-        if(win){
-            alert(`${playerTracker.nextPlayer} wins!`)
-        }
+        winAnouncer(win, playerTracker.nextPlayer)
     }
     //columns
     for(let i = 0; i < gameObject.gameBoard.length; i++){
@@ -111,10 +103,9 @@ function checkWinner() {
                 break;
             }
         }
-        if(win){
-            alert(`${playerTracker.nextPlayer} wins!`)
-        }
+        winAnouncer(win, playerTracker.nextPlayer)
     }
+
 }
 
 function winCounter() {
@@ -122,11 +113,31 @@ function winCounter() {
 
     const firstMarkCounter = document.createElement('div')
     firstMarkCounter.className = 'win-counter-display'
+    firstMarkCounter.id = 'first-player-counter'
     firstMarkCounter.textContent = `${gameObject.firstPlayer.marker} has won ${gameObject.firstPlayer.counter} times`    
     winCounterContainer.appendChild(firstMarkCounter)
 
     const secondMarkCounter = document.createElement('div')
     secondMarkCounter.className = 'win-counter-display'
+    secondMarkCounter.id = 'second-player-counter'
     secondMarkCounter.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`    
     winCounterContainer.appendChild(secondMarkCounter)
+}
+
+function winAnouncer(win, player) {
+
+    if(win){
+        alert(`${player} wins!`)
+        if(player === gameObject.firstPlayer.marker){
+            gameObject.firstPlayer.counter++
+            const firstMark = document.querySelector('#first-player-counter')
+            firstMark.textContent = `${gameObject.firstPlayer.marker} has won ${gameObject.firstPlayer.counter} times`
+        } else {
+            gameObject.secondPlayer.counter++
+            const secondMark = document.querySelector('#second-player-counter')
+            secondMark.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`
+        }
+
+   }
+
 }
