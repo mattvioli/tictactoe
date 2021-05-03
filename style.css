@@ -71,3 +71,37 @@ body {
     background-color: rgb(212, 48, 119);
     align-self: end;
 }
+
+.win-announcement {
+    position: absolute;
+    height: 15vh;
+    width: 20vw;
+    border-radius: 15px;
+    background-color: rgb(212, 48, 119);
+    top: 20%;
+    left: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 24px;
+    transition: all 2s ease;
+}
+
+.win-announcement > button {
+    border: 1px solid black;
+    border-radius: 10px;
+    height: 20px;
+    background-color: rgb(212, 48, 119);
+}
+
+.win-announcement > div {
+    height: 10vh;
+    width: 18vw;
+    text-align: center;
+}
+#yes-win {
+    position: absolute;
+    top: 20%;
+    left: 40%;
+}

@@ -132,16 +132,19 @@ function winCounter() {
 
 function winAnouncer(win, player) {
     if(win){
-        alert(`${player} wins!`)
+       const winAccouncement = document.querySelector('.win-announcement div')
         if(player === gameObject.firstPlayer.marker){
             gameObject.firstPlayer.counter++
+            winAccouncement.textContent = `${gameObject.firstPlayer.marker} is the winnner!!`
             const firstMark = document.querySelector('#first-player-counter')
             firstMark.textContent = `${gameObject.firstPlayer.marker} has won ${gameObject.firstPlayer.counter} times`
         } else {
             gameObject.secondPlayer.counter++
+            winAccouncement.textContent = `${gameObject.secondPlayer.marker} is the winnner!!`
             const secondMark = document.querySelector('#second-player-counter')
             secondMark.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`
         }
+        winAccouncement.id = 'yes-win'
         gameObject.gameBoard = [
             ['','',''],
             ['','',''],
