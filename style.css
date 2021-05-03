@@ -60,7 +60,9 @@ body {
 
 .player-panel {
     margin: 0 10px;
+    justify-self: center;
 }
+
 #reset {
     grid-area: button;
     border: none;
