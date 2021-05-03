@@ -21,7 +21,6 @@ let gameObject = {}
 let playerTracker = {currentPlayer: gameObject.firstPlayer.marker,
     nextPlayer: gameObject.secondPlayer.marker}
 
-//need to rewrite logic that changes who the current player is
 
 const playerMarkerDisplay = document.querySelector('.playerturn span')
 
@@ -114,19 +113,21 @@ function checkWinner() {
 }
 
 function winCounter() {
-    const winCounterContainer =  document.querySelector('.win-counter')
+    const playerOneContainer =  document.querySelector('#player-one')
 
     const firstMarkCounter = document.createElement('div')
     firstMarkCounter.className = 'win-counter-display'
     firstMarkCounter.id = 'first-player-counter'
     firstMarkCounter.textContent = `${gameObject.firstPlayer.marker} has won ${gameObject.firstPlayer.counter} times`    
-    winCounterContainer.appendChild(firstMarkCounter)
+    playerOneContainer.appendChild(firstMarkCounter)
+
+    const playerTwoContainer =  document.querySelector('#player-two')
 
     const secondMarkCounter = document.createElement('div')
     secondMarkCounter.className = 'win-counter-display'
     secondMarkCounter.id = 'second-player-counter'
     secondMarkCounter.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`    
-    winCounterContainer.appendChild(secondMarkCounter)
+    playerTwoContainer .appendChild(secondMarkCounter)
 }
 
 function winAnouncer(win, player) {
@@ -155,3 +156,5 @@ resetButton.addEventListener('click', function () {
     localStorage.clear()
     location.reload()
 } )
+
+//need to write JS to populate the player's name and using their input to set the name

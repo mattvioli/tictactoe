@@ -34,3 +34,31 @@ body {
     margin: 10px;
     font-size: 24px;
 }
+
+.player-display {
+    width: 60vw;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 
+        'turn turn turn'
+        'playerone button playertwo'
+    ;
+}
+
+.playerturn {
+    grid-area: turn;
+    text-align: center;
+}
+
+#player-one {
+    grid-area: playerone;
+}
+
+#player-two {
+    grid-area: playertwo;
+}
+
+#reset {
+    grid-area: button;
+}
