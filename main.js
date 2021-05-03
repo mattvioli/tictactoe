@@ -1,17 +1,28 @@
 let gameObject = {
-    playerMarker: 'O',
-    nextPlayer: 'X',
+    firstPlayer: {
+            marker: 'O',
+            counter: 0
+    },
+    secondPlayer: {  
+        marker: 'X',
+        counter: 0
+    },
     gameBoard:  [
         ['','',''],
         ['','',''],
         ['','','']
-    ]
+    ],
 }
+let playerTracker = {currentPlayer: gameObject.firstPlayer.marker,
+    nextPlayer: gameObject.secondPlayer.marker}
+
+//need to rewrite logic that changes who the current player is
+
 const playerMarkerDisplay = document.querySelector('.playerturn span')
 
 function createGameBoard() {
     const gameBoardDisplay = document.querySelector('.game-board')
-    playerMarkerDisplay.textContent = gameObject.playerMarker
+    playerMarkerDisplay.textContent = gameObject.firstPlayer.marker
     for(let i = 0; i < gameObject.gameBoard.length; i++){
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
         let element = document.createElement('div')
@@ -20,6 +31,7 @@ function createGameBoard() {
         gameBoardDisplay.appendChild(element)
         }
     }
+    winCounter()
 }
 createGameBoard()
 
@@ -27,82 +39,105 @@ const allGameDivs = document.querySelectorAll('.game-div')
 allGameDivs.forEach(element => element.addEventListener('click', clickHandler))
 
 function clickHandler(event) {
-    event.target.textContent = gameObject.playerMarker
+    event.target.textContent = playerTracker.currentPlayer
     const idCordinates = event.target.id.split('')
     const row = idCordinates[0]
     const column = idCordinates[1]
-    gameObject.gameBoard[row][column] = gameObject.playerMarker
-    gameObject.playerMarker = gameObject.nextPlayer
-    gameObject.nextPlayer = event.target.textContent
-    playerMarkerDisplay.textContent = gameObject.playerMarker
+    gameObject.gameBoard[row][column] = playerTracker.currentPlayer
+    if(playerTracker.currentPlayer  === gameObject.firstPlayer.marker) {
+        playerTracker.currentPlayer = gameObject.secondPlayer.marker
+        playerTracker.nextPlayer = gameObject.firstPlayer.marker
+    } else {
+        playerTracker.currentPlayer  = gameObject.firstPlayer.marker
+        playerTracker.nextPlayer = gameObject.secondPlayer.marker
+    }
+    playerMarkerDisplay.textContent = playerTracker.currentPlayer
     checkWinner()
-
 }
 
 function checkWinner() {
-    //this works, but I need to loop through this.
-    // gameObject.gameBoard[i][i] in a loop should work.
         //diagonal
         for(let i = 0; i < gameObject.gameBoard.length; i++) {
         let win = true
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
-            if(gameObject.gameBoard[j][j] !== gameObject.nextPlayer){
+            if(gameObject.gameBoard[j][j] !== playerTracker.nextPlayer){
                 win = false
                 break;
             }
         }
-            if(win){
-                alert(`${gameObject.nextPlayer} wins!`)
-            }
+            winAnouncer(win, playerTracker.nextPlayer)
             break
             //break needed otherwise it alerts three times
         }
         //other diagonal
-         //diagonal
          for(let i = 0; i < gameObject.gameBoard.length; i++) {
             let win = true
             for(let j = 0; j < gameObject.gameBoard[i].length; j++){
-                const diagColumn = gameObject.gameBoard[i].length - 1
-                if(gameObject.gameBoard[diagColumn - j][j] !== gameObject.nextPlayer){
+                const diagColumn = (gameObject.gameBoard[i].length - 1)
+                if(gameObject.gameBoard[diagColumn - j][j] !== playerTracker.nextPlayer){
                     win = false
-                    console.log(gameObject.gameBoard[-j][j])
                     break;
                 }
             }
-                if(win){
-                    alert(`${gameObject.nextPlayer} wins!`)
-                }
-                break
+            winAnouncer(win, playerTracker.nextPlayer)
+            break
             }
 
     //rows
     for(let i = 0; i < gameObject.gameBoard.length; i++){
         let win = true
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
-            if(gameObject.gameBoard[i][j] !== gameObject.nextPlayer){
+            if(gameObject.gameBoard[i][j] !== playerTracker.nextPlayer){
                 win = false
                 break;
             }
         }
-        if(win){
-            alert(`${gameObject.nextPlayer} wins!`)
-        }
+        winAnouncer(win, playerTracker.nextPlayer)
     }
     //columns
     for(let i = 0; i < gameObject.gameBoard.length; i++){
         let win = true
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
-            if(gameObject.gameBoard[j][i] !== gameObject.nextPlayer){
+            if(gameObject.gameBoard[j][i] !== playerTracker.nextPlayer){
                 win = false
                 break;
             }
         }
-        if(win){
-            alert(`${gameObject.nextPlayer} wins!`)
-        }
+        winAnouncer(win, playerTracker.nextPlayer)
     }
 
 }
 
-//okay what do I need to do.
-// if 
+function winCounter() {
+    const winCounterContainer =  document.querySelector('.win-counter')
+
+    const firstMarkCounter = document.createElement('div')
+    firstMarkCounter.className = 'win-counter-display'
+    firstMarkCounter.id = 'first-player-counter'
+    firstMarkCounter.textContent = `${gameObject.firstPlayer.marker} has won ${gameObject.firstPlayer.counter} times`    
+    winCounterContainer.appendChild(firstMarkCounter)
+
+    const secondMarkCounter = document.createElement('div')
+    secondMarkCounter.className = 'win-counter-display'
+    secondMarkCounter.id = 'second-player-counter'
+    secondMarkCounter.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`    
+    winCounterContainer.appendChild(secondMarkCounter)
+}
+
+function winAnouncer(win, player) {
+
+    if(win){
+        alert(`${player} wins!`)
+        if(player === gameObject.firstPlayer.marker){
+            gameObject.firstPlayer.counter++
+            const firstMark = document.querySelector('#first-player-counter')
+            firstMark.textContent = `${gameObject.firstPlayer.marker} has won ${gameObject.firstPlayer.counter} times`
+        } else {
+            gameObject.secondPlayer.counter++
+            const secondMark = document.querySelector('#second-player-counter')
+            secondMark.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`
+        }
+
+   }
+
+}
