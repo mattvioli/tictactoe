@@ -3,11 +3,13 @@ let gameObject = {}
         gameObject = {
         firstPlayer: {
                 marker: 'O',
-                counter: 0
+                counter: 0,
+                name: 'O'
         },
         secondPlayer: {  
             marker: 'X',
-            counter: 0
+            counter: 0,
+            name: 'X'
         },
         gameBoard:  [
             ['','',''],
@@ -51,11 +53,12 @@ function clickHandler(event) {
     if(playerTracker.currentPlayer  === gameObject.firstPlayer.marker) {
         playerTracker.currentPlayer = gameObject.secondPlayer.marker
         playerTracker.nextPlayer = gameObject.firstPlayer.marker
+        playerMarkerDisplay.textContent = gameObject.secondPlayer.name
     } else {
         playerTracker.currentPlayer  = gameObject.firstPlayer.marker
         playerTracker.nextPlayer = gameObject.secondPlayer.marker
+        playerMarkerDisplay.textContent = gameObject.firstPlayer.name
     }
-    playerMarkerDisplay.textContent = playerTracker.currentPlayer
     checkWinner()
 }
 
@@ -113,21 +116,12 @@ function checkWinner() {
 }
 
 function winCounter() {
-    const playerOneContainer =  document.querySelector('#player-one')
 
-    const firstMarkCounter = document.createElement('div')
-    firstMarkCounter.className = 'win-counter-display'
-    firstMarkCounter.id = 'first-player-counter'
+    const firstMarkCounter = document.querySelector('#first-player-counter')
     firstMarkCounter.textContent = `${gameObject.firstPlayer.marker} has won ${gameObject.firstPlayer.counter} times`    
-    playerOneContainer.appendChild(firstMarkCounter)
 
-    const playerTwoContainer =  document.querySelector('#player-two')
-
-    const secondMarkCounter = document.createElement('div')
-    secondMarkCounter.className = 'win-counter-display'
-    secondMarkCounter.id = 'second-player-counter'
+    const secondMarkCounter = document.querySelector('#second-player-counter')
     secondMarkCounter.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`    
-    playerTwoContainer .appendChild(secondMarkCounter)
 }
 
 function winAnouncer(win, player) {
@@ -136,12 +130,12 @@ function winAnouncer(win, player) {
         const winAccouncementSpan = document.querySelector('.win-announcement span')
         if(player === gameObject.firstPlayer.marker){
             gameObject.firstPlayer.counter++
-            winAccouncementSpan.textContent = `${gameObject.firstPlayer.marker}`
+            winAccouncementSpan.textContent = `${gameObject.firstPlayer.name}`
             const firstMark = document.querySelector('#first-player-counter')
             firstMark.textContent = `${gameObject.firstPlayer.marker} has won ${gameObject.firstPlayer.counter} times`
         } else {
             gameObject.secondPlayer.counter++
-            winAccouncementSpan.textContent = `${gameObject.secondPlayer.marker}`
+            winAccouncementSpan.textContent = `${gameObject.secondPlayer.name}`
             const secondMark = document.querySelector('#second-player-counter')
             secondMark.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`
         }
@@ -164,3 +158,23 @@ resetButton.addEventListener('click', function () {
 //this is probably not the best way to reset the game, however as it is one page I am okay with this.
 const continueButton = document.querySelector('.win-announcement button')
 continueButton.addEventListener('click', () => location.reload())
+
+const playerOneFormInput = document.querySelector('#player-one-name input')
+const playertwoFormInput = document.querySelector('#player-two-name input')
+
+
+const formButton = document.querySelectorAll('.player-panel button')
+
+formButton.forEach((element) => element.addEventListener('click', function (event) {
+    event.preventDefault()
+    if(event.target.id === 'player-one-button') {
+        gameObject.firstPlayer.name = playerOneFormInput.value
+        console.log(event.target.id)
+    }
+    if(event.target.id === 'player-two-button') {
+        gameObject.secondPlayer.name = playertwoFormInput.value
+        console.log(event.target.id)
+
+    }
+}))
+

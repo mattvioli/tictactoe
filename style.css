@@ -37,7 +37,7 @@ body {
 .player-display {
     width: 60vw;
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: 1fr 3fr;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: 
         'turn turn turn'
@@ -100,6 +100,27 @@ body {
     text-align: center;
 }
 
+.player-panel , .player-panel-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.player-panel button {
+    border-radius: 10px;
+    border: none;
+    height: 20px;
+    width: 100px;
+    background-color: rgb(212, 48, 119);
+}
+
+.player-display input {
+    border-radius: 10px;
+    border: none;
+    text-align: center;
+}
 #yes-win {
     position: absolute;
     top: 20%;
