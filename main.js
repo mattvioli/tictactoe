@@ -116,21 +116,12 @@ function checkWinner() {
 }
 
 function winCounter() {
-    const playerOneContainer =  document.querySelector('#player-one')
 
-    const firstMarkCounter = document.createElement('div')
-    firstMarkCounter.className = 'win-counter-display'
-    firstMarkCounter.id = 'first-player-counter'
+    const firstMarkCounter = document.querySelector('#first-player-counter')
     firstMarkCounter.textContent = `${gameObject.firstPlayer.marker} has won ${gameObject.firstPlayer.counter} times`    
-    playerOneContainer.appendChild(firstMarkCounter)
 
-    const playerTwoContainer =  document.querySelector('#player-two')
-
-    const secondMarkCounter = document.createElement('div')
-    secondMarkCounter.className = 'win-counter-display'
-    secondMarkCounter.id = 'second-player-counter'
+    const secondMarkCounter = document.querySelector('#second-player-counter')
     secondMarkCounter.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`    
-    playerTwoContainer .appendChild(secondMarkCounter)
 }
 
 function winAnouncer(win, player) {
@@ -168,8 +159,8 @@ resetButton.addEventListener('click', function () {
 const continueButton = document.querySelector('.win-announcement button')
 continueButton.addEventListener('click', () => location.reload())
 
-const playerOneFormInput = document.querySelector('.player-one-name input')
-const playertwoFormInput = document.querySelector('.player-two-name input')
+const playerOneFormInput = document.querySelector('#player-one-name input')
+const playertwoFormInput = document.querySelector('#player-two-name input')
 
 
 const formButton = document.querySelectorAll('.player-panel button')
