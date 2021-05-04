@@ -15,7 +15,8 @@ let gameObject = {}
             ['','',''],
             ['','',''],
             ['','','']
-        ]
+        ],
+        turnCounter: 0
     }} else { 
         gameObject = JSON.parse(localStorage.getItem('gameObject'))
     }
@@ -112,7 +113,19 @@ function checkWinner() {
         }
         winAnouncer(win, playerTracker.nextPlayer)
     }
-
+    //this counts how many turns happen, if it reaches 9, no one wins.
+    gameObject.turnCounter++
+    if(gameObject.turnCounter === 9) {
+        const winAccouncement = document.querySelector('.win-announcement')
+        winAccouncement.id = 'yes-win'
+        gameObject.gameBoard = [
+            ['','',''],
+            ['','',''],
+            ['','','']
+        ]
+        gameObject.turnCounter = 0 
+        localStorage.setItem('gameObject', JSON.stringify(gameObject))
+    }
 }
 
 function winCounter() {
@@ -145,6 +158,7 @@ function winAnouncer(win, player) {
             ['','',''],
             ['','','']
         ]
+        gameObject.turnCounter = 0 
         localStorage.setItem('gameObject', JSON.stringify(gameObject))
    }
 }
