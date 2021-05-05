@@ -19,7 +19,8 @@ let gameObject = {}
             ['','','']
         ],
         turnCounter: 0,
-        maxTurn: 9
+        maxTurn: 9,
+        ai: false
     }} else { 
         gameObject = JSON.parse(localStorage.getItem('gameObject'))
     }
@@ -72,25 +73,43 @@ function clickHandler(event) {
     const row = idCordinates[0]
     const column = idCordinates[1]
     //checks if the game board hasn't been clicked
-    if(gameObject.gameBoard[row][column] === '') {
-    turnAudio.play()
-    //fills the board with the current player marker
-    event.target.textContent = turnTracker.currentPlayer
-    //updates the game board to reflect the website
-    gameObject.gameBoard[row][column] = turnTracker.currentPlayer
-
-    //updates the turn tracker
-    if(turnTracker.currentPlayer  === gameObject.firstPlayer.marker) {
-        turnTracker.currentPlayer = gameObject.secondPlayer.marker
-        turnTracker.nextPlayer = gameObject.firstPlayer.marker
-        playerMarkerDisplay.textContent = gameObject.secondPlayer.name
-    } else {
-        turnTracker.currentPlayer  = gameObject.firstPlayer.marker
-        turnTracker.nextPlayer = gameObject.secondPlayer.marker
-        playerMarkerDisplay.textContent = gameObject.firstPlayer.name
-    }
+    fillBoard(row, column)
     //checks if anyone one has one
     checkWinner()
+    if(gameObject.ai) {
+        console.log()
+        if(turnTracker.currentPlayer === gameObject.secondPlayer.marker){
+            let row = Math.floor(Math.random() * gameObject.gameBoard.length)
+            let column = Math.floor(Math.random() * gameObject.gameBoard.length)
+            gameObject.gameBoard[row][column] = turnTracker.nextPlayer
+            const divID = `${row}${column}`
+            const gameDiv = document.getElementById(divID)
+            gameDiv.textContent = turnTracker.nextPlayer
+            console.log(divID)
+            // fillBoard(row, column)
+        }
+    }
+    }
+// okay, I need to figure out how to use the two numbers to access the ID's
+
+function fillBoard(row, column) {
+    if(gameObject.gameBoard[row][column] === '') {
+        turnAudio.play()
+        //fills the board with the current player marker
+        event.target.textContent = turnTracker.currentPlayer
+        //updates the game board to reflect the website
+        gameObject.gameBoard[row][column] = turnTracker.currentPlayer
+    
+        //updates the turn tracker
+        if(turnTracker.currentPlayer  === gameObject.firstPlayer.marker) {
+            turnTracker.currentPlayer = gameObject.secondPlayer.marker
+            turnTracker.nextPlayer = gameObject.firstPlayer.marker
+            playerMarkerDisplay.textContent = gameObject.secondPlayer.name
+        } else {
+            turnTracker.currentPlayer  = gameObject.firstPlayer.marker
+            turnTracker.nextPlayer = gameObject.secondPlayer.marker
+            playerMarkerDisplay.textContent = gameObject.firstPlayer.name
+        }
     }
 }
 
@@ -271,3 +290,15 @@ function changeBoardSize(event) {
         allGameDivs.forEach(element => element.addEventListener('click', clickHandler))
 }
 }
+
+const aiButton = document.querySelector('#ai-button')
+aiButton.addEventListener('click', () => gameObject.ai = true)
+
+// function easyAI() {
+//     //on next players turn pick random co-ordinate
+//     if(turnTracker.currentPlayer === gameObject.secondPlayer.marker){
+//         let column = Math.floor(Math.random() * gameObject.gameBoard.length)
+//         let row = Math.floor(Math.random() * gameObject.gameBoard.length)
+//         fillBoard(row, column)
+//     }
+// }
