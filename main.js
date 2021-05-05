@@ -180,22 +180,26 @@ resetButton.addEventListener('click', function () {
 const continueButton = document.querySelector('.win-announcement button')
 continueButton.addEventListener('click', () => location.reload())
 
+//The below code grabs the input elements.
 const playerOneFormInput = document.querySelector('#player-one-name input')
-const playertwoFormInput = document.querySelector('#player-two-name input')
+const playerTwoFormInput = document.querySelector('#player-two-name input')
+//This grabs the submit names button
+const submitNamesButton = document.querySelector('#names-button')
 
-
-const formButton = document.querySelectorAll('.player-panel button')
-
-formButton.forEach((element) => element.addEventListener('click', function (event) {
+//This event listener checks if the input form is empty, it if is not it sets the names.
+// This also replaces the textContent of the sub headers
+submitNamesButton.addEventListener('click', function (event) {
     event.preventDefault()
-    if(event.target.id === 'player-one-button') {
-        gameObject.firstPlayer.name = playerOneFormInput.value
-        console.log(event.target.id)
-    }
-    if(event.target.id === 'player-two-button') {
-        gameObject.secondPlayer.name = playertwoFormInput.value
-        console.log(event.target.id)
+    const playerOneHeader = document.querySelector('#player-one h2')
+    const playerTwoHeader = document.querySelector('#player-two h2')
 
+    if(playerOneFormInput.value !== '' ) {
+        gameObject.firstPlayer.name = playerOneFormInput.value
+        playerOneHeader.textContent = gameObject.firstPlayer.name
     }
-}))
+    if(playerTwoFormInput.value !== '') {
+        gameObject.secondPlayer.name = playerTwoFormInput.value
+        playerTwoHeader.textContent = gameObject.secondPlayer.name
+    }
+})
 
