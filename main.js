@@ -310,7 +310,6 @@ function internalAI(row, column) {
 // if the ai is true, then run the ai. It picks a random number and plays it. 
 // it also is recursive and calls itself if it picks a non-empty number
 function easyAI() {
-    if(gameObject.ai === 'easy') {
         if(turnTracker.currentPlayer === gameObject.secondPlayer.marker){
             let row = Math.floor(Math.random() * gameObject.gameBoard.length)
             let column = Math.floor(Math.random() * gameObject.gameBoard.length)
@@ -319,17 +318,25 @@ function easyAI() {
             } else {
                 easyAI()
             }
-        }
     } 
 
 function mediumAI() {
     //want to get half of the board and use input
     const halfLength = gameObject.gameBoard.length / 2
-    if(gameObject.turnCounter === Math.round(halfLength)) {
-    let row = Math.floor(Math.random() * (gameObject.gameBoard.length - Math.round(halfLength)) + Math.floor(halfLength))
-    let column = Math.floor(Math.random() * (gameObject.gameBoard.length - Math.round(halfLength)) + Math.floor(halfLength))
-    internalAI(row, column)
+    if(gameObject.turnCounter === Math.floor(halfLength)) {
+        console.log('start medium')
+        let row = Math.floor(Math.random() * (gameObject.gameBoard.length - Math.round(halfLength)) + Math.floor(halfLength))
+        let column = Math.floor(Math.random() * (gameObject.gameBoard.length - Math.round(halfLength)) + Math.floor(halfLength))
+        if(gameObject.gameBoard[row][column] === '') {
+            console.log('found empty space')
+            internalAI(row, column)
+        } else {
+            console.log('did not find empty space')
+            mediumAI()
+        }
     } else {
+        console.log('should fire easy')
         easyAI()
     }
 }
+//easyAI is not firing.
