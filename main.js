@@ -16,7 +16,8 @@ let gameObject = {}
             ['','',''],
             ['','','']
         ],
-        turnCounter: 0
+        turnCounter: 0,
+        maxTurn: 9
     }} else { 
         gameObject = JSON.parse(localStorage.getItem('gameObject'))
     }
@@ -33,9 +34,9 @@ const turnAudio = new Audio('turn.mp3')
 const playerOneHeader = document.querySelector('#player-one h2')
 const playerTwoHeader = document.querySelector('#player-two h2')
 const playerMarkerDisplay = document.querySelector('.playerturn span')
+const gameBoardDisplay = document.querySelector('.game-board')
 
 function createGameBoard() {
-    const gameBoardDisplay = document.querySelector('.game-board')
     playerMarkerDisplay.textContent = gameObject.firstPlayer.marker
     playerOneHeader.textContent = gameObject.firstPlayer.name
     playerTwoHeader.textContent = gameObject.secondPlayer.name
@@ -128,7 +129,7 @@ function checkWinner() {
     }
     //this counts how many turns happen, if it reaches 9, no one wins.
     gameObject.turnCounter++
-    if(gameObject.turnCounter === 9) {
+    if(gameObject.turnCounter === gameObject.maxTurn) {
         const winAccouncement = document.querySelector('.win-announcement')
         winAccouncement.id = 'yes-win'
         gameObject.gameBoard = [
@@ -208,3 +209,42 @@ submitNamesButton.addEventListener('click', function (event) {
     }
 })
 
+//to change the board size, I will need to grab two loops, take the inputted amount and push to the gameBoard array,
+// then call the gameBoard function to create it.
+//first the event listner to the button.
+const changeBoardSizeButton = document.querySelector('#board-size-button')
+
+changeBoardSizeButton.addEventListener('click', changeBoardSize)
+
+function changeBoardSize(event) {
+    event.preventDefault()
+    console.log('click')
+    const boardSizeInput = document.querySelector('#board-size')
+    //creates the additional rows
+    for(let i = 3; i < boardSizeInput.value; i++){
+            gameObject.gameBoard.push(['','',''])
+
+        }
+        //creates the addition columns, must start the loop at 0 to get every array
+    for(let i = 0; i < boardSizeInput.value; i++){
+        //must start at 3 as we are having minimum value 3
+        for(let j = 3; j < boardSizeInput.value; j++){
+            gameObject.gameBoard[i].push('')
+        }
+    }
+    //uses while loop to remove all gameBoardDiv's
+    while (gameBoardDisplay.firstChild) {
+        gameBoardDisplay.removeChild(gameBoardDisplay.lastChild);
+        console.log(gameBoardDisplay.firstChild)
+    }
+    //changes the max turns to be able to announce when no one wins
+    gameObject.maxTurn = boardSizeInput.value * boardSizeInput.value
+    //changes the grid number
+    gameBoardDisplay.style.gridTemplateColumns = `repeat(${boardSizeInput.value}, 1fr)`
+    gameBoardDisplay.style.gridTemplateRows = `repeat(${boardSizeInput.value}, 1fr)`
+
+    //creates the game board again and adds the event listeners
+    createGameBoard()
+    const allGameDivs = document.querySelectorAll('.game-div')
+    allGameDivs.forEach(element => element.addEventListener('click', clickHandler))
+}
