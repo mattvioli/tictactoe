@@ -21,18 +21,25 @@ let gameObject = {}
         gameObject = JSON.parse(localStorage.getItem('gameObject'))
     }
 
+    let playerTracker = {
+        currentPlayer: gameObject.firstPlayer.marker,
+        nextPlayer: gameObject.secondPlayer.marker
+    }
+
 const winAudio = new Audio('victory.mp3')
 const turnAudio = new Audio('turn.mp3')
 
-let playerTracker = {currentPlayer: gameObject.firstPlayer.marker,
-    nextPlayer: gameObject.secondPlayer.marker}
 
-
+const playerOneHeader = document.querySelector('#player-one h2')
+const playerTwoHeader = document.querySelector('#player-two h2')
 const playerMarkerDisplay = document.querySelector('.playerturn span')
 
 function createGameBoard() {
     const gameBoardDisplay = document.querySelector('.game-board')
     playerMarkerDisplay.textContent = gameObject.firstPlayer.marker
+    playerOneHeader.textContent = gameObject.firstPlayer.name
+    playerTwoHeader.textContent = gameObject.secondPlayer.name
+
     for(let i = 0; i < gameObject.gameBoard.length; i++){
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
         let element = document.createElement('div')
@@ -190,8 +197,6 @@ const submitNamesButton = document.querySelector('#names-button')
 // This also replaces the textContent of the sub headers
 submitNamesButton.addEventListener('click', function (event) {
     event.preventDefault()
-    const playerOneHeader = document.querySelector('#player-one h2')
-    const playerTwoHeader = document.querySelector('#player-two h2')
 
     if(playerOneFormInput.value !== '' ) {
         gameObject.firstPlayer.name = playerOneFormInput.value
