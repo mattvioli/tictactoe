@@ -21,6 +21,9 @@ let gameObject = {}
         gameObject = JSON.parse(localStorage.getItem('gameObject'))
     }
 
+const winAudio = new Audio('victory.mp3')
+const turnAudio = new Audio('turn.mp3')
+
 let playerTracker = {currentPlayer: gameObject.firstPlayer.marker,
     nextPlayer: gameObject.secondPlayer.marker}
 
@@ -46,6 +49,7 @@ const allGameDivs = document.querySelectorAll('.game-div')
 allGameDivs.forEach(element => element.addEventListener('click', clickHandler))
 
 function clickHandler(event) {
+    turnAudio.play()
     event.target.textContent = playerTracker.currentPlayer
     const idCordinates = event.target.id.split('')
     const row = idCordinates[0]
@@ -152,6 +156,7 @@ function winAnouncer(win, player) {
             const secondMark = document.querySelector('#second-player-counter')
             secondMark.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`
         }
+        winAudio.play()
         winAccouncement.id = 'yes-win'
         gameObject.gameBoard = [
             ['','',''],
