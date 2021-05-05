@@ -186,7 +186,7 @@ resetButton.addEventListener('click', function () {
 
 //this is probably not the best way to reset the game, however as it is one page I am okay with this.
 const continueButton = document.querySelector('.win-announcement button')
-continueButton.addEventListener('click', () => location.reload())
+continueButton.addEventListener('click', () => location.reload(), gameObject.maxTurn = 9)
 
 //The below code grabs the input elements.
 const playerOneFormInput = document.querySelector('#player-one-name input')
