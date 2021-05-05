@@ -237,33 +237,37 @@ changeBoardSizeButton.addEventListener('click', changeBoardSize)
 
 function changeBoardSize(event) {
     event.preventDefault()
-    console.log('click')
     const boardSizeInput = document.querySelector('#board-size')
     //creates the additional rows
-    for(let i = 3; i < boardSizeInput.value; i++){
-            gameObject.gameBoard.push(['','',''])
+    if(boardSizeInput.value > 10) {
+        alert('Maximum 10')
+    } else if(boardSizeInput.value < 3) {
+        alert('Minimum 3')
+    } else {
+        for(let i = 3; i < boardSizeInput.value; i++){
+                gameObject.gameBoard.push(['','',''])
 
+            }
+            //creates the addition columns, must start the loop at 0 to get every array
+        for(let i = 0; i < boardSizeInput.value; i++){
+            //must start at 3 as we are having minimum value 3
+            for(let j = 3; j < boardSizeInput.value; j++){
+                gameObject.gameBoard[i].push('')
+            }
         }
-        //creates the addition columns, must start the loop at 0 to get every array
-    for(let i = 0; i < boardSizeInput.value; i++){
-        //must start at 3 as we are having minimum value 3
-        for(let j = 3; j < boardSizeInput.value; j++){
-            gameObject.gameBoard[i].push('')
+        //uses while loop to remove all gameBoardDiv's
+        while (gameBoardDisplay.firstChild) {
+            gameBoardDisplay.removeChild(gameBoardDisplay.lastChild);
         }
-    }
-    //uses while loop to remove all gameBoardDiv's
-    while (gameBoardDisplay.firstChild) {
-        gameBoardDisplay.removeChild(gameBoardDisplay.lastChild);
-        console.log(gameBoardDisplay.firstChild)
-    }
-    //changes the max turns to be able to announce when no one wins
-    gameObject.maxTurn = boardSizeInput.value * boardSizeInput.value
-    //changes the grid number
-    gameBoardDisplay.style.gridTemplateColumns = `repeat(${boardSizeInput.value}, 1fr)`
-    gameBoardDisplay.style.gridTemplateRows = `repeat(${boardSizeInput.value}, 1fr)`
+        //changes the max turns to be able to announce when no one wins
+        gameObject.maxTurn = boardSizeInput.value * boardSizeInput.value
+        //changes the grid number
+        gameBoardDisplay.style.gridTemplateColumns = `repeat(${boardSizeInput.value}, 1fr)`
+        gameBoardDisplay.style.gridTemplateRows = `repeat(${boardSizeInput.value}, 1fr)`
 
-    //creates the game board again and adds the event listeners
-    createGameBoard()
-    const allGameDivs = document.querySelectorAll('.game-div')
-    allGameDivs.forEach(element => element.addEventListener('click', clickHandler))
+        //creates the game board again and adds the event listeners
+        createGameBoard()
+        const allGameDivs = document.querySelectorAll('.game-div')
+        allGameDivs.forEach(element => element.addEventListener('click', clickHandler))
+}
 }
