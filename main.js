@@ -76,20 +76,8 @@ function clickHandler(event) {
     fillBoard(row, column)
     //checks if anyone one has one
     checkWinner()
-    if(gameObject.ai) {
-        console.log()
-        if(turnTracker.currentPlayer === gameObject.secondPlayer.marker){
-            let row = Math.floor(Math.random() * gameObject.gameBoard.length)
-            let column = Math.floor(Math.random() * gameObject.gameBoard.length)
-            gameObject.gameBoard[row][column] = turnTracker.nextPlayer
-            const divID = `${row}${column}`
-            const gameDiv = document.getElementById(divID)
-            gameDiv.textContent = turnTracker.nextPlayer
-            console.log(divID)
-            // fillBoard(row, column)
-        }
-    }
-    }
+    easyAI()
+}
 // okay, I need to figure out how to use the two numbers to access the ID's
 
 function fillBoard(row, column) {
@@ -291,14 +279,35 @@ function changeBoardSize(event) {
 }
 }
 
+//make ai boolean true
 const aiButton = document.querySelector('#ai-button')
 aiButton.addEventListener('click', () => gameObject.ai = true)
 
-// function easyAI() {
-//     //on next players turn pick random co-ordinate
-//     if(turnTracker.currentPlayer === gameObject.secondPlayer.marker){
-//         let column = Math.floor(Math.random() * gameObject.gameBoard.length)
-//         let row = Math.floor(Math.random() * gameObject.gameBoard.length)
-//         fillBoard(row, column)
-//     }
-// }
+// if the ai is true, then run the ai. It picks a random number and plays it. 
+// it also is recursive and calls itself if it picks a non-empty number
+function easyAI() {
+    if(gameObject.ai) {
+        if(turnTracker.currentPlayer === gameObject.secondPlayer.marker){
+            console.lo
+            let row = Math.floor(Math.random() * gameObject.gameBoard.length)
+            let column = Math.floor(Math.random() * gameObject.gameBoard.length)
+            if(gameObject.gameBoard[row][column] === '') {
+            gameObject.gameBoard[row][column] = turnTracker.currentPlayer
+            const divID = `${row}${column}`
+            const gameDiv = document.getElementById(divID)
+            gameDiv.textContent = turnTracker.currentPlayer
+            console.log(divID)
+            //Set it back to first player
+            turnTracker.currentPlayer  = gameObject.firstPlayer.marker
+            turnTracker.nextPlayer = gameObject.secondPlayer.marker
+            playerMarkerDisplay.textContent = gameObject.firstPlayer.name
+            // need to notpick taken spots
+
+            // fillBoard(row, column)
+            checkWinner()
+            } else {
+                easyAI()
+            }
+        }
+    } 
+}
