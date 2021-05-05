@@ -49,11 +49,12 @@ const allGameDivs = document.querySelectorAll('.game-div')
 allGameDivs.forEach(element => element.addEventListener('click', clickHandler))
 
 function clickHandler(event) {
-    turnAudio.play()
-    event.target.textContent = playerTracker.currentPlayer
     const idCordinates = event.target.id.split('')
     const row = idCordinates[0]
     const column = idCordinates[1]
+    if(gameObject.gameBoard[row][column] === '') {
+    turnAudio.play()
+    event.target.textContent = playerTracker.currentPlayer
     gameObject.gameBoard[row][column] = playerTracker.currentPlayer
     if(playerTracker.currentPlayer  === gameObject.firstPlayer.marker) {
         playerTracker.currentPlayer = gameObject.secondPlayer.marker
@@ -65,6 +66,7 @@ function clickHandler(event) {
         playerMarkerDisplay.textContent = gameObject.firstPlayer.name
     }
     checkWinner()
+    }
 }
 
 function checkWinner() {
