@@ -1,4 +1,6 @@
+//This is the game object that holds all of our data.
 let gameObject = {}
+    //if statement to either set a blank gameObject or grab it from localStorage
     if(localStorage.getItem('gameObject') === null) {
         gameObject = {
         firstPlayer: {
@@ -22,25 +24,30 @@ let gameObject = {}
         gameObject = JSON.parse(localStorage.getItem('gameObject'))
     }
 
-    let playerTracker = {
+//Tracks who's turn it is
+let turnTracker = {
         currentPlayer: gameObject.firstPlayer.marker,
         nextPlayer: gameObject.secondPlayer.marker
-    }
+}
 
+//The audio files
 const winAudio = new Audio('victory.mp3')
 const turnAudio = new Audio('turn.mp3')
 
-
+//elememt selectors that are needing in multiple functions
 const playerOneHeader = document.querySelector('#player-one h2')
 const playerTwoHeader = document.querySelector('#player-two h2')
 const playerMarkerDisplay = document.querySelector('.playerturn span')
 const gameBoardDisplay = document.querySelector('.game-board')
 
+//Create the gameboard
 function createGameBoard() {
+    //populate the page with dynamic content
     playerMarkerDisplay.textContent = gameObject.firstPlayer.marker
     playerOneHeader.textContent = gameObject.firstPlayer.name
     playerTwoHeader.textContent = gameObject.secondPlayer.name
 
+    //creates the game divs.
     for(let i = 0; i < gameObject.gameBoard.length; i++){
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
         let element = document.createElement('div')
@@ -49,32 +56,52 @@ function createGameBoard() {
         gameBoardDisplay.appendChild(element)
         }
     }
+    //calls winCounter function to populate it
     winCounter()
 }
+//calls gameBoard
 createGameBoard()
 
+//selects all the divs and adds an event listener
 const allGameDivs = document.querySelectorAll('.game-div')
 allGameDivs.forEach(element => element.addEventListener('click', clickHandler))
 
 function clickHandler(event) {
+    //uses the div Id's as the co-ordinates and splits them.
     const idCordinates = event.target.id.split('')
     const row = idCordinates[0]
     const column = idCordinates[1]
+    //checks if the game board hasn't been clicked
     if(gameObject.gameBoard[row][column] === '') {
     turnAudio.play()
-    event.target.textContent = playerTracker.currentPlayer
-    gameObject.gameBoard[row][column] = playerTracker.currentPlayer
-    if(playerTracker.currentPlayer  === gameObject.firstPlayer.marker) {
-        playerTracker.currentPlayer = gameObject.secondPlayer.marker
-        playerTracker.nextPlayer = gameObject.firstPlayer.marker
+    //fills the board with the current player marker
+    event.target.textContent = turnTracker.currentPlayer
+    //updates the game board to reflect the website
+    gameObject.gameBoard[row][column] = turnTracker.currentPlayer
+
+    //updates the turn tracker
+    if(turnTracker.currentPlayer  === gameObject.firstPlayer.marker) {
+        turnTracker.currentPlayer = gameObject.secondPlayer.marker
+        turnTracker.nextPlayer = gameObject.firstPlayer.marker
         playerMarkerDisplay.textContent = gameObject.secondPlayer.name
     } else {
-        playerTracker.currentPlayer  = gameObject.firstPlayer.marker
-        playerTracker.nextPlayer = gameObject.secondPlayer.marker
+        turnTracker.currentPlayer  = gameObject.firstPlayer.marker
+        turnTracker.nextPlayer = gameObject.secondPlayer.marker
         playerMarkerDisplay.textContent = gameObject.firstPlayer.name
     }
+    //checks if anyone one has one
     checkWinner()
     }
+}
+
+function resetBoard(){
+    gameObject.gameBoard = [
+        ['','',''],
+        ['','',''],
+        ['','','']
+    ]
+    gameObject.turnCounter = 0 
+    localStorage.setItem('gameObject', JSON.stringify(gameObject))
 }
 
 function checkWinner() {
@@ -82,12 +109,12 @@ function checkWinner() {
         for(let i = 0; i < gameObject.gameBoard.length; i++) {
         let win = true
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
-            if(gameObject.gameBoard[j][j] !== playerTracker.nextPlayer){
+            if(gameObject.gameBoard[j][j] !== turnTracker.nextPlayer){
                 win = false
                 break;
             }
         }
-            winAnouncer(win, playerTracker.nextPlayer)
+            winAnouncer(win)
             break
             //break needed otherwise it alerts three times
         }
@@ -96,12 +123,12 @@ function checkWinner() {
             let win = true
             for(let j = 0; j < gameObject.gameBoard[i].length; j++){
                 const diagColumn = (gameObject.gameBoard[i].length - 1)
-                if(gameObject.gameBoard[diagColumn - j][j] !== playerTracker.nextPlayer){
+                if(gameObject.gameBoard[diagColumn - j][j] !== turnTracker.nextPlayer){
                     win = false
                     break;
                 }
             }
-            winAnouncer(win, playerTracker.nextPlayer)
+            winAnouncer(win)
             break
             }
 
@@ -109,39 +136,35 @@ function checkWinner() {
     for(let i = 0; i < gameObject.gameBoard.length; i++){
         let win = true
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
-            if(gameObject.gameBoard[i][j] !== playerTracker.nextPlayer){
+            if(gameObject.gameBoard[i][j] !== turnTracker.nextPlayer){
                 win = false
                 break;
             }
         }
-        winAnouncer(win, playerTracker.nextPlayer)
+        winAnouncer(win)
     }
     //columns
     for(let i = 0; i < gameObject.gameBoard.length; i++){
         let win = true
         for(let j = 0; j < gameObject.gameBoard[i].length; j++){
-            if(gameObject.gameBoard[j][i] !== playerTracker.nextPlayer){
+            if(gameObject.gameBoard[j][i] !== turnTracker.nextPlayer){
                 win = false
                 break;
             }
         }
-        winAnouncer(win, playerTracker.nextPlayer)
+        winAnouncer(win)
     }
     //this counts how many turns happen, if it reaches 9, no one wins.
     gameObject.turnCounter++
+    //Announces that no one has one and resets the gameBoard and turnCounter
     if(gameObject.turnCounter === gameObject.maxTurn) {
         const winAccouncement = document.querySelector('.win-announcement')
         winAccouncement.id = 'yes-win'
-        gameObject.gameBoard = [
-            ['','',''],
-            ['','',''],
-            ['','','']
-        ]
-        gameObject.turnCounter = 0 
-        localStorage.setItem('gameObject', JSON.stringify(gameObject))
+        resetBoard()
     }
 }
 
+//diplays the winCounter
 function winCounter() {
 
     const firstMarkCounter = document.querySelector('#first-player-counter')
@@ -151,11 +174,12 @@ function winCounter() {
     secondMarkCounter.textContent = `${gameObject.secondPlayer.marker} has won ${gameObject.secondPlayer.counter} times`    
 }
 
-function winAnouncer(win, player) {
+// this accounces the winner, takes win and the player
+function winAnouncer(win) {
     if(win){
         const winAccouncement = document.querySelector('.win-announcement')
         const winAccouncementSpan = document.querySelector('.win-announcement span')
-        if(player === gameObject.firstPlayer.marker){
+        if(turnTracker.nextPlayer === gameObject.firstPlayer.marker){
             gameObject.firstPlayer.counter++
             winAccouncementSpan.textContent = `${gameObject.firstPlayer.name}`
             const firstMark = document.querySelector('#first-player-counter')
@@ -168,16 +192,11 @@ function winAnouncer(win, player) {
         }
         winAudio.play()
         winAccouncement.id = 'yes-win'
-        gameObject.gameBoard = [
-            ['','',''],
-            ['','',''],
-            ['','','']
-        ]
-        gameObject.turnCounter = 0 
-        localStorage.setItem('gameObject', JSON.stringify(gameObject))
+        resetBoard()
    }
 }
 
+//reset button just clears the local storage and reloads the page
 const resetButton = document.querySelector('#reset')
 resetButton.addEventListener('click', function () { 
     localStorage.clear()
