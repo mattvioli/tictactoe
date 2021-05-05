@@ -61,6 +61,9 @@ body {
 .player-panel {
     margin: 0 10px;
     justify-self: center;
+    border: 1px solid black;
+    border-radius: 15px;
+    padding: 10px;
 }
 
 #reset {
