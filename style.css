@@ -66,13 +66,19 @@ body {
     padding: 10px;
 }
 
-#reset {
+#control-panel {
     grid-area: button;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#control-panel button {
     border: none;
     border-radius: 10px;
     height: 50px;
     background-color: rgb(212, 48, 119);
-    align-self: end;
 }
 
 .win-announcement {
@@ -115,7 +121,6 @@ body {
     border-radius: 10px;
     border: none;
     height: 20px;
-    width: 100px;
     background-color: rgb(212, 48, 119);
 }
 
