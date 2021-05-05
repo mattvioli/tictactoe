@@ -237,7 +237,6 @@ changeBoardSizeButton.addEventListener('click', changeBoardSize)
 
 function changeBoardSize(event) {
     event.preventDefault()
-    console.log('click')
     const boardSizeInput = document.querySelector('#board-size')
     //creates the additional rows
     if(boardSizeInput.value > 10) {
@@ -259,7 +258,6 @@ function changeBoardSize(event) {
         //uses while loop to remove all gameBoardDiv's
         while (gameBoardDisplay.firstChild) {
             gameBoardDisplay.removeChild(gameBoardDisplay.lastChild);
-            console.log(gameBoardDisplay.firstChild)
         }
         //changes the max turns to be able to announce when no one wins
         gameObject.maxTurn = boardSizeInput.value * boardSizeInput.value
