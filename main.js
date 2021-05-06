@@ -330,7 +330,7 @@ function easyAI() {
 function mediumAI() {
     //want to get half of the board and use input
     const halfLength = gameObject.gameBoard.length / 2
-    if(gameObject.turnCounter === Math.floor(halfLength)) {
+    if(gameObject.turnCounter < gameObject.maxTurn / 3) {
         console.log('start medium')
         let row = Math.floor(Math.random() * (gameObject.gameBoard.length - Math.round(halfLength)) + Math.floor(halfLength))
         let column = Math.floor(Math.random() * (gameObject.gameBoard.length - Math.round(halfLength)) + Math.floor(halfLength))
