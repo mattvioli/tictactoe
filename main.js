@@ -19,7 +19,8 @@ let gameObject = {}
             ['','','']
         ],
         turnCounter: 0,
-        maxTurn: 9
+        maxTurn: 9,
+        ai: null
     }} else { 
         gameObject = JSON.parse(localStorage.getItem('gameObject'))
     }
@@ -72,25 +73,37 @@ function clickHandler(event) {
     const row = idCordinates[0]
     const column = idCordinates[1]
     //checks if the game board hasn't been clicked
-    if(gameObject.gameBoard[row][column] === '') {
-    turnAudio.play()
-    //fills the board with the current player marker
-    event.target.textContent = turnTracker.currentPlayer
-    //updates the game board to reflect the website
-    gameObject.gameBoard[row][column] = turnTracker.currentPlayer
-
-    //updates the turn tracker
-    if(turnTracker.currentPlayer  === gameObject.firstPlayer.marker) {
-        turnTracker.currentPlayer = gameObject.secondPlayer.marker
-        turnTracker.nextPlayer = gameObject.firstPlayer.marker
-        playerMarkerDisplay.textContent = gameObject.secondPlayer.name
-    } else {
-        turnTracker.currentPlayer  = gameObject.firstPlayer.marker
-        turnTracker.nextPlayer = gameObject.secondPlayer.marker
-        playerMarkerDisplay.textContent = gameObject.firstPlayer.name
-    }
+    fillBoard(row, column)
     //checks if anyone one has one
     checkWinner()
+
+    if(gameObject.ai === 'easy') {
+        easyAI()
+    }
+     if(gameObject.ai === 'medium')  {
+        mediumAI()
+     }
+}
+// okay, I need to figure out how to use the two numbers to access the ID's
+
+function fillBoard(row, column) {
+    if(gameObject.gameBoard[row][column] === '') {
+        turnAudio.play()
+        //fills the board with the current player marker
+        event.target.textContent = turnTracker.currentPlayer
+        //updates the game board to reflect the website
+        gameObject.gameBoard[row][column] = turnTracker.currentPlayer
+    
+        //updates the turn tracker
+        if(turnTracker.currentPlayer  === gameObject.firstPlayer.marker) {
+            turnTracker.currentPlayer = gameObject.secondPlayer.marker
+            turnTracker.nextPlayer = gameObject.firstPlayer.marker
+            playerMarkerDisplay.textContent = gameObject.secondPlayer.name
+        } else {
+            turnTracker.currentPlayer  = gameObject.firstPlayer.marker
+            turnTracker.nextPlayer = gameObject.secondPlayer.marker
+            playerMarkerDisplay.textContent = gameObject.firstPlayer.name
+        }
     }
 }
 
@@ -271,3 +284,67 @@ function changeBoardSize(event) {
         allGameDivs.forEach(element => element.addEventListener('click', clickHandler))
 }
 }
+
+
+//make ai boolean true
+const aiButton = document.querySelector('#ai-button')
+const aiOption = document.querySelector('#ai-select')
+ 
+aiButton.addEventListener('click', function () {
+    gameObject.ai = aiOption.value
+})
+
+//shared internal workings of AI
+function internalAI(row, column) {
+    if(gameObject.gameBoard[row][column] === '') {
+    gameObject.gameBoard[row][column] = turnTracker.currentPlayer
+    const divID = `${row}${column}`
+    const gameDiv = document.getElementById(divID)
+    gameDiv.textContent = turnTracker.currentPlayer
+    //Set it back to first player
+    turnTracker.currentPlayer  = gameObject.firstPlayer.marker
+    turnTracker.nextPlayer = gameObject.secondPlayer.marker
+    playerMarkerDisplay.textContent = gameObject.firstPlayer.name
+    }
+}
+// if the ai is true, then run the ai. It picks a random number and plays it. 
+// it also is recursive and calls itself if it picks a non-empty number
+function easyAI() {
+    console.log('fire easy')
+        if(turnTracker.currentPlayer === gameObject.secondPlayer.marker){
+            let row = Math.floor(Math.random() * gameObject.gameBoard.length)
+            let column = Math.floor(Math.random() * gameObject.gameBoard.length)
+            console.log(row, column)
+            // need to rethink this as it loops and loops until it find an expty one, and the more taken spots the higher it loops.
+            if(gameObject.gameBoard[row][column] === '') {
+            internalAI(row, column)
+            checkWinner()
+            } else {
+                easyAI()
+            }
+            } else {
+                easyAI()
+            }
+    } 
+
+function mediumAI() {
+    //want to get half of the board and use input
+    const halfLength = gameObject.gameBoard.length / 2
+    if(gameObject.turnCounter < gameObject.maxTurn / 3) {
+        console.log('start medium')
+        let row = Math.floor(Math.random() * (gameObject.gameBoard.length - Math.round(halfLength)) + Math.floor(halfLength))
+        let column = Math.floor(Math.random() * (gameObject.gameBoard.length - Math.round(halfLength)) + Math.floor(halfLength))
+        if(gameObject.gameBoard[row][column] === '') {
+            console.log('found empty space')
+            internalAI(row, column)
+            checkWinner()
+        } else {
+            console.log('did not find empty space')
+            mediumAI()
+        }
+    } else {
+        console.log('should fire easy')
+        easyAI()
+    }
+}
+//easyAI is not firing.
