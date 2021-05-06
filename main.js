@@ -310,11 +310,18 @@ function internalAI(row, column) {
 // if the ai is true, then run the ai. It picks a random number and plays it. 
 // it also is recursive and calls itself if it picks a non-empty number
 function easyAI() {
+    console.log('fire easy')
         if(turnTracker.currentPlayer === gameObject.secondPlayer.marker){
             let row = Math.floor(Math.random() * gameObject.gameBoard.length)
             let column = Math.floor(Math.random() * gameObject.gameBoard.length)
+            console.log(row, column)
+            // need to rethink this as it loops and loops until it find an expty one, and the more taken spots the higher it loops.
+            if(gameObject.gameBoard[row][column] === '') {
             internalAI(row, column)
             checkWinner()
+            } else {
+                easyAI()
+            }
             } else {
                 easyAI()
             }
@@ -330,6 +337,7 @@ function mediumAI() {
         if(gameObject.gameBoard[row][column] === '') {
             console.log('found empty space')
             internalAI(row, column)
+            checkWinner()
         } else {
             console.log('did not find empty space')
             mediumAI()
