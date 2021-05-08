@@ -18,7 +18,7 @@ To reset scores and names click 'Reset Game'
 You can also adjust the size of the board.
 I have added an EasyAI and a Medium AI and am working on a Minimax/hard AI.
 
-## Planning (sort of similar to "My experience developing the game")
+## Planning
 I started by creating all the features into issues, and focusing on them as single goals.
 
 ## Known Bugs
